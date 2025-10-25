@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 import { canShowInBrowser, getMimeTypeFromExtension } from "@/app/utils";
-import { MAX_FILE_SIZE } from "@/app/constants";
+import { MAX_FILE_SIZE, UPLOAD_DIR } from "@/app/constants"; // changed
 
 type Params = Promise<{ fileName: string }>;
 
@@ -24,7 +24,8 @@ const GET = async (_: NextRequest, { params }: { params: Params }) => {
       return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
     }
 
-    const filePath = path.join(process.cwd(), "uploads", fileName);
+    // changed: use UPLOAD_DIR instead of hardcoded process.cwd() + 'uploads'
+    const filePath = path.join(UPLOAD_DIR, fileName);
 
     try {
       await fs.access(filePath);

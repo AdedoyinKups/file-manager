@@ -1,3 +1,6 @@
+import path from "path";
+import os from "os";
+
 const ALLOWED_TYPES = {
   "image/jpeg": [".jpg", ".jpeg"],
   "image/png": [".png"],
@@ -31,6 +34,8 @@ const ALLOWED_TYPES = {
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
-const UPLOAD_DIR = "uploads";
+const UPLOAD_DIR =
+  process.env.UPLOAD_DIR ??
+  (process.env.VERCEL === "1" ? os.tmpdir() : path.join(process.cwd(), "uploads"));
 
 export { ALLOWED_TYPES, MAX_FILE_SIZE, UPLOAD_DIR };
